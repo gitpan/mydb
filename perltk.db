@@ -1,0 +1,141 @@
++>Set default color schemes 
+#Set the default (X resource style) colors for the application tree:
+#Saves having to set the colors individually
+
+$LW = new  MainWindow;
+#set some inherited default colors
+$LW->optionAdd("*background","#caC2BBBBA7A7"); 
+$LW->optionAdd("*foreground","black"); 
+$LW->optionAdd("*highlightBackground", "#caC2BBBBA7A7");
+$LW->optionAdd("*buttonBackground", "$buttonbackground");
+$LW->optionAdd("*troughColor", "$troughbackground");
+$LW->optionAdd("*borderWidth", "1");
+$LW->optionAdd("*highlightThickness", "0");
+$LW->optionAdd("*font", "8x13bold");
+
++>Add data to a text tag in a text widget
+#add data to a text tag in a text widget.  double click on the "hello there"
+#and the data is returned
+
+sub cb($$) {
+    my ($text, $tag) = @_;
+    my $data = $text->tagCget($tag, -data);
+    #print "data=$data, value1=", $data->{k1}, "!\n";
+    print "data=$data\n";
+}
+
+my $main = MainWindow->new();
+$text = $main->ROText(-height => 15, -width => 80, -borderwidth => 0,
+                      -wrap => "word")
+    ->pack(-fill => "both", -expand => 1);
+$text->insert("1.0", "hello there", "tag");
+$h = "k1 v1 k2 v2";
+$text->tagConfigure("tag", -data => "$h");
+$text->tagBind("tag", "<Double-1>" => [ \&cb, "tag" ]);
+
++>Tied header and data scrolled text widgets
+#!/net/pvcsserv01/sft/gnu/bin/perl
+#!/usr/local/bin/perl
+################################################################################
+
+#perl variables
+$|=1; # set output buffering to off
+$[ = 0; # set array base to 0
+$, = ' '; # set output field separator
+$\ = "\n"; # set output record separator
+
+local $headerbackground='#f0f0c7';
+local $headerforeground="red4";
+local $txtbackground="snow2";
+local $txtforeground="black";
+
+use Tk;
+
+$LW = new  MainWindow;
+
+$listframe=$LW->Frame(
+   -borderwidth=>'1',
+   -relief=>'sunken',
+   )->pack(
+      -fill=>'both',
+      -expand=>1,
+      -pady=>0,
+      -padx=>0,
+      -side=>'top',
+      );
+
+     
+$scrolly=$listframe->Scrollbar(
+   -orient=>'vert',
+   -elementborderwidth=>1,
+   )->pack(
+      -side=>'right',
+      -fill=>'y',
+      );
+
+$scrollx=$listframe->Scrollbar(
+   -orient=>'horiz',
+   -elementborderwidth=>1,
+   )->pack(
+      -side=>'bottom',
+      -fill=>'x',
+      );
+
+    
+$queryheader=$listframe->Text(
+   -xscrollcommand=>['set', $scrollx],
+   -relief=>'flat',
+   -background=>$headerbackground,
+   -foreground=>$headerforeground,
+   -selectforeground=>$txtforeground,
+   -selectbackground=>'#c0d0c0',
+   -setgrid=>'yes',
+   -wrap=>'none',  
+   -height=>2,
+   -exportselection=>1,
+   )->pack(
+      -fill=>'x',
+      -expand=>0,
+      -pady=>0,
+      -anchor=>'n',
+      );
+
+$queryout=$listframe->Text(
+   -yscrollcommand=>['set', $scrolly],
+   -xscrollcommand=>['set', $scrollx],
+   -relief=>'sunken',
+   -background=>$txtbackground,
+   -selectforeground=>$txtforeground,
+   -selectbackground=>'#c0d0c0',
+   -wrap=>'none',
+   -height=>14,
+   -exportselection=>1, 
+   )->pack(
+      -fill=>'both',
+      -expand=>1,
+      -pady=>0,
+      );
+
+$scrolly->configure(-command=>['yview', $queryout]);
+$scrollx->configure(-command=>\&my_xscroll);
+
+#throw in some data for scrolling
+$queryheader->insert('end',"Column 1 | Column 2 | Column 3 | Column 4 | Column 5 | Column 6 | Column 7 | Column 8 | Column 9 | Column 10\n");
+$queryheader->insert('end',"header 1 | header 2 | header 3 | header 4 | header 5 | header 6 | header 7 | header 8 | header 9 | header 10");
+
+for ($i=0;$i<21;$i++) {
+   $i = sprintf("%2d",$i);
+   $queryout   ->insert('end',"data   $i|data    $i|data    $i|data    $i|data    $i|data    $i|data    $i|data    $i|data    $i|data    $i\n");
+   };
+
+MainLoop;
+
+#tie two text widgets (header and data) to scroll horizontally together
+sub my_xscroll {
+   $queryheader->xview(@_); 
+   $queryout->xview(@_);     
+   }#sub
++>Globally set busy/unbusy mouse cursor
+$mw=>Busy(-recurse=>1);
+$mw=>Unbusy(-recurse=>1);
+

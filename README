@@ -1,0 +1,60 @@
+mydb.pl is a QUICK and easy way to display smallish (although there is no limit to the
+size of the data displayed except for what Perl/TK can handle) amounts of data.
+The idea behind the application came when I found myself searching 
+through a lot of old perl files to find a snippet of code I had previously
+written.  Now I have a mydb database which I an quickly call up, select the
+snippet of code I want to see and voila!.. the code snippet is displayed.
+I can then highlight it and past the code into my editor...   
+
+The mydb package can be fetched via CPAN - 
+   $CPAN/authors/id/M/MS/MSCROGGIN
+
+
+Usage: mydb.pl [database]   The database may or may not contain the ".db" extension.
+   mydb expects to find a database of the "[given name].db" in the $HOME/.mydb directory.  
+   If no database name is found matching the name given, the user will be prompted to create
+   a new database.
+
+
+--------------
+
+Description:
+
+mydb./pl uses
+
+Perl/TK8
+ 
+Tk::SplitFrame from $CPAN/authors/id/D/DK/DKWILSON/Tk-DKW-0.01.tar.gz
+This is a great package containing a lot of really nice widgets.  I highly recommend
+getting this package anyway...
+
+
+--------------
+
+The Buttons:
+
+"Add Item"  - Spawns an "add" window which allows the user to make a new entry into the
+      database
+      
+"Edit Item" - Spawns an "edit" window populated with the current item.  Edits can be made
+      in this dialog, and when the edits are accepted, the new record is merged into the 
+      database.
+      
+"Delete Item" - Allows the user to delete the current database item
+
+"Search" - Allows the user to search through the database topics.
+
+"Load" - Spawns the open-file dialog to manually select a database file to load.
+
+"Cancel" -  Exits the application.
+
+--------------
+
+Thats just about it.. The product is pretty simple and (hopefully) intuitive.
+
+
+Any comments/suggestions for mydb would be appreciated.
+
+
+Monty Scroggins
+Monty4@flash.net
